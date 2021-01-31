@@ -2322,6 +2322,7 @@ GameObject:
   - component: {fileID: 6940151094857218584}
   - component: {fileID: 6940151094857218591}
   - component: {fileID: 119187215}
+  - component: {fileID: 1308209625466985127}
   m_Layer: 2
   m_Name: Hero
   m_TagString: Untagged
@@ -2401,9 +2402,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1a8c69522d082147883ea0e794ea33e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  config: {fileID: 11400000, guid: 6e79a481a8828cf40ab7b0ac4bf6f5e3, type: 2}
   projectile: {fileID: 2640306276610642785, guid: f00f7ea1dfb7d0247895c98a4d5bc111,
     type: 3}
-  startPoint: {fileID: 8302534680431745112}
+  startPoint: {fileID: 230464425475310772}
   curveHeight: 3
   fireRate: 120
 --- !u!136 &119187215
@@ -2420,6 +2422,22 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &1308209625466985127
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7823095014586419020}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7865039371228342355
 GameObject:
   m_ObjectHideFlags: 0
