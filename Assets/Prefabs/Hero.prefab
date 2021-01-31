@@ -2400,6 +2400,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1a8c69522d082147883ea0e794ea33e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectile: {fileID: 2640306276610642785, guid: f00f7ea1dfb7d0247895c98a4d5bc111,
+    type: 3}
+  startPoint: {fileID: 8302534680431745112}
 --- !u!1 &7865039371228342355
 GameObject:
   m_ObjectHideFlags: 0
