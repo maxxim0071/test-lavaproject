@@ -18,6 +18,8 @@ public class Hero : Entity
 
     private bool canShoot = false;
 
+    public ParticleSystem particles;
+
     void Launch(Vector3 target)
     {
         Rigidbody clone = Instantiate(projectile, startPoint.position, Quaternion.identity);
@@ -109,6 +111,7 @@ public class Hero : Entity
     {
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out targetHit, 100))
         {
+            particles.Play();
             Launch(targetHit.point);
         }
     }
