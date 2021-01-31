@@ -2,14 +2,19 @@
 
 public class Enemy : Entity
 {
-    Transform[] points;
+    Transform[] points = new Transform[0];
     int destination = 0;
 
     protected override void Start()
     {
         base.Start();
 
-        points = GameObject.Find("WaypointsContainer").GetComponent<WaypointsContainer>().points;
+        GameObject waypointsContainer;
+
+        if (waypointsContainer = GameObject.Find("WaypointsContainer"))
+        {
+            points = waypointsContainer.GetComponent<WaypointsContainer>().points;
+        }
     }
 
     protected override void Update()
@@ -30,5 +35,14 @@ public class Enemy : Entity
         agent.destination = points[destination].position;
 
         destination = (destination + 1) % points.Length;
+    }
+
+    public void GotHit()
+    {
+        agent.enabled = false;
+        animator.enabled = false;
+        enabled = false;
+
+        Destroy(gameObject, 10f);
     }
 }
