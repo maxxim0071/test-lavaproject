@@ -10,6 +10,9 @@ public class Hero : Entity
     public float curveHeight = 3;
     private float gravity = -9.81f;
 
+    public float fireRate = 120f;
+    private float nextFire = 0f;
+
     void Launch(Vector3 target)
     {
         Rigidbody clone = Instantiate(projectile, startPoint.position, Quaternion.identity);
@@ -61,12 +64,29 @@ public class Hero : Entity
             }
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(1))
         {
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
+            if (fireRate == 0)
             {
-                Launch(hit.point);
+                Shoot();
             }
+            else
+            {
+                if (Time.time > nextFire)
+                {
+                    nextFire = Time.time + 60 / fireRate;
+
+                    Shoot();
+                }
+            }
+        }
+    }
+
+    void Shoot()
+    {
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
+        {
+            Launch(hit.point);
         }
     }
 }
