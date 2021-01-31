@@ -13,6 +13,8 @@ public class Hero : Entity
     public float fireRate = 120f;
     private float nextFire = 0f;
 
+    private bool canShoot = false;
+
     void Launch(Vector3 target)
     {
         Rigidbody clone = Instantiate(projectile, startPoint.position, Quaternion.identity);
@@ -64,7 +66,7 @@ public class Hero : Entity
             }
         }
 
-        if (Input.GetMouseButton(1))
+        if (canShoot && Input.GetMouseButton(1))
         {
             if (fireRate == 0)
             {
@@ -88,5 +90,15 @@ public class Hero : Entity
         {
             Launch(hit.point);
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        canShoot = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        canShoot = false;
     }
 }
