@@ -5,5 +5,4 @@ public class HeroConfig : ScriptableObject
 {
     public float heroMoveSpeed = 4f;
     public float heroShootSpeed = 120f;
-    public float heroShootForce = 10f;
 }
