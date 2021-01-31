@@ -7,7 +7,7 @@ public class Entity : MonoBehaviour
     protected Animator animator;
     protected NavMeshAgent agent;
 
-    void Start()
+    protected virtual void Start()
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
