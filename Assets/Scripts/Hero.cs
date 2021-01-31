@@ -2,7 +2,10 @@
 
 public class Hero : Entity
 {
-    RaycastHit hit = new RaycastHit();
+    RaycastHit moveHit = new RaycastHit();
+    RaycastHit targetHit = new RaycastHit();
+
+    public HeroConfig config;
 
     public Rigidbody projectile;
     public Transform startPoint;
@@ -27,9 +30,9 @@ public class Hero : Entity
         float displacementY = target.y - startPoint.position.y;
         Vector3 displacementXZ = new Vector3(target.x - startPoint.position.x, 0, target.z - startPoint.position.z);
 
-        float time = Mathf.Sqrt(-2 * curveHeight / gravity) + Mathf.Sqrt(2 * (displacementY - curveHeight) / gravity);
+        float time = Mathf.Sqrt(-2 / gravity) + Mathf.Sqrt(2 * (displacementY) / gravity);
 
-        Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * curveHeight);
+        Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity);
         Vector3 velocityXZ = displacementXZ / time;
 
         return new LaunchData(velocityXZ + velocityY * -Mathf.Sign(gravity), time);
@@ -51,54 +54,76 @@ public class Hero : Entity
     {
         base.Start();
 
+        if (config)
+        {
+            agent.speed = config.heroMoveSpeed;
+            fireRate = config.heroShootSpeed;
+        }
+
         gravity = Physics.gravity.y;
     }
 
     protected override void Update()
     {
         base.Update();
-
+        
         if (Input.GetMouseButtonDown(0))
         {
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out moveHit, 100))
             {
-                agent.destination = hit.point;
+                agent.destination = moveHit.point;
             }
         }
 
-        if (canShoot && Input.GetMouseButton(1))
+        if (canShoot)
         {
-            if (fireRate == 0)
+            if (Input.GetMouseButton(1))
             {
-                Shoot();
-            }
-            else
-            {
-                if (Time.time > nextFire)
+                if (fireRate == 0)
                 {
-                    nextFire = Time.time + 60 / fireRate;
-
                     Shoot();
+                }
+                else
+                {
+                    if (Time.time > nextFire)
+                    {
+                        nextFire = Time.time + 60 / fireRate;
+
+                        Shoot();
+                    }
                 }
             }
         }
     }
 
+    private void OnAnimatorIK(int layerIndex)
+    {
+        if (targetHit.transform)
+        {
+            animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
+            animator.SetIKPosition(AvatarIKGoal.RightHand, targetHit.point);
+        }
+    }
+
     void Shoot()
     {
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out targetHit, 100))
         {
-            Launch(hit.point);
+            Launch(targetHit.point);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         canShoot = true;
+
+        targetHit = new RaycastHit();
     }
 
     private void OnTriggerExit(Collider other)
     {
         canShoot = false;
+
+        targetHit = new RaycastHit();
     }
 }
